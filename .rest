@@ -1,0 +1,17 @@
+GET http://localhost:3000/
+
+###
+
+GET http://localhost:3000/users
+
+###
+POST http://localhost:3000/users/newUser
+Content-Type: application/json
+
+{
+    "id" : "",
+    "userName" : "RestTest",
+    "passWord" : 444
+}
+
+###

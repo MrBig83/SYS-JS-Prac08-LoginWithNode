@@ -6,7 +6,6 @@ let inputUsername,
     userList,
     tempUserList,
     user,
-    defUserList,
     pWelcome,
     loggedInUser,
     loginForm,
@@ -20,36 +19,29 @@ let inputUsername,
 
 
 anyoneHome();
-initDefaultUsers();
 login();
 createAccount();
 
 // ----- FUNCTIONS BELOW THIS POINT ----- //
-function initDefaultUsers(){
-    defUserList = [
-        {
-            userName: "Fredrik",
-            password: "12345"
-        },
-        {
-            userName: "Martin",
-            password: "555"
-        }, 
-];
-    tempUserList = (localStorage.getItem("users", ));
-    if(tempUserList == undefined){
-        localStorage.setItem("users", JSON.stringify(defUserList)); //Ladda upp defUserList
-    }
-    tempUserList = JSON.parse(localStorage.getItem("users", )); //Ladda ner
-    userList = tempUserList;
-};
-function login(){
+
+async function getUserList(){
+    let getData = await fetch("http://localhost:3000/users");
+    let defUserList = await getData.json()
+    
+
+    return defUserList;
+}
+
+async function login(){
+    let defUserList = await getUserList();
+    console.log(defUserList);
     logInBtn = document.querySelector("#logInBtn"); 
     logInBtn.addEventListener("click", function() {
-        let obj = userList.find(o => o.userName === inputUsername.value)
+        
+        let obj = defUserList.find(o => o.userName === inputUsername.value)
             if(obj != undefined){
-                for (let x of userList) {
-                if(inputUsername.value === x.userName && inputPassword.value === x.password){
+                for (let x of defUserList) {
+                if(inputUsername.value === x.userName && inputPassword.value === x.passWord){
                     logInUser(inputUsername.value);
                 return  
                 } 
@@ -111,23 +103,23 @@ function logInUser(username){
     showLogout();
     felmeddelande();
 }
-function createAccount(){
+async function createAccount(){
+    let defUserList = await getUserList();
     createUsername = document.querySelector("#createUsername");
     createPassword = document.querySelector("#createPassword");
     backBtn = document.querySelector("#backBtn");
     btnCreateAccount = document.querySelector("#btnCreateAccount"); 
     btnCreateAccount.addEventListener("click", function() {
-        user ={
+        user =[{
+            id:"",
             userName: createUsername.value,
-            password: createPassword.value
-            }
-        let obj = userList.find(o => o.userName === createUsername.value);
+            passWord: createPassword.value
+            }]
+        let obj = defUserList.find(o => o.userName === createUsername.value);
         if(obj != undefined){
             felmeddelande("Användarnamnet är upptaget. Prova med ett annat användarnamn");
         } else {
-            userList.push(user);
-            localStorage.setItem("users", JSON.stringify(userList));
-            userList = JSON.parse(localStorage.getItem("users", ));
+            createUser(user)
             felmeddelande();
             felmeddelande("Kontot " + createUsername.value + " skapades.");
             createUsername.value=("");
@@ -137,6 +129,17 @@ function createAccount(){
     backBtn.addEventListener("click", showLogin);
 
 };
+async function createUser(user){
+    const response = await fetch("http://localhost:3000/users/newUser", {
+        method: "POST", 
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            "id":"",
+            "userName":user[0].userName,
+            "passWord":user[0].passWord    
+        })
+    })   
+}
 function showLogin(){
     createAccount = document.querySelector("#createAccount")
     createAccount.style.display="none";
