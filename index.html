@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS - Inlämningsuppgift 2</title>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Logo</h1>
+        
+        <hr>
+    </header>
+
+    <main>
+        <div id="badCred"></div>
+        <p id="pWelcome">Välkommen! Logga in nedan: </p>
+
+        <div id="loginForm" style="display:none ;">
+            <input type="text" name="inputUsername" id="inputUsername" placeholder="Username" style="margin-top:0.0rem">
+            <input type="text" name="inputPassword" id="inputPassword" placeholder="Password"  style="margin-top:0.5rem"><br>
+            
+            <button id="logInBtn" style="margin-top:0.5rem">Log in</button>
+            <button id="createAccountBtn" style="display:inline; margin-top: 2rem";>Create Account</button>
+        </div>
+        <div id="createAccount" style="display:none ;">
+            <input type="text" name="createUsername" id="createUsername" placeholder="New Username" style="margin-top:0.0rem">
+            <input type="text" name="createPassword" id="createPassword" placeholder="New Password"  style="margin-top:0.5rem"><br>
+            
+            <button id="btnCreateAccount" style="margin-top:2rem">Create Account</button>
+            <button id="backBtn" style="margin: top 2rem;">Return to login</button>
+        </div>
+        <div>
+            <div id="logOut">
+                <button id="logoutBtn" style="display:none">Log out</button>
+            </div>
+        </div>
+        
+
+
+    </main>
+
+    <footer style="margin-top:80vh; border-top:1px solid black;">Footer</footer>
+
+</body>
+</html>
